@@ -241,9 +241,6 @@ svg.each(function(a,b){
 
 	d3.json(pollUrl, function(error, poll){
 		var latest = poll.filter(function(d){return d.candidatename == 'Trump' || d.candidatename == 'Clinton'}).slice(-2);
-		// latest.forEach(function(d){
-		// 	console.log(a.code.toLowerCase(), d.candidatename);
-		// });
 		if(latest.length > 0){
 			if(latest[0].candidatename == 'Trump'){
 				histArray.push((latest[1].pollaverage-latest[0].pollaverage)/100);	
@@ -256,8 +253,8 @@ svg.each(function(a,b){
 					x:width-23,
 					y:109
 				})
-				.tspans(['Latest polling',
-					d3.time.format("%Y-%m-%d").parse(latest[0].updatedAt.toString().substring(0,10)).getDate() + ' ' + months[d3.time.format("%Y-%m-%d").parse(latest[0].updatedAt.toString().substring(0,10)).getMonth()] + ' ' +  d3.time.format("%Y-%m-%d").parse(latest[0].updatedAt.toString().substring(0,10)).getFullYear()
+				.tspans(['Latest poll margin',
+					 'as of ' + d3.time.format("%Y-%m-%d").parse(latest[0].updatedAt.toString().substring(0,10)).getDate() + ' ' + months[d3.time.format("%Y-%m-%d").parse(latest[0].updatedAt.toString().substring(0,10)).getMonth()] + ' ' +  d3.time.format("%Y-%m-%d").parse(latest[0].updatedAt.toString().substring(0,10)).getFullYear()
 					])
 				.attr({
 					'text-anchor':'end',
@@ -271,6 +268,18 @@ svg.each(function(a,b){
 					fill:'none',
 					stroke:'#000000'
 				})
+		}else{
+			thisCard.append('text.history')
+				.attr({
+					'text-anchor':'end',
+					x:width-23,
+					y:109
+				})
+				.tspans(['No','polling','data'])
+				.attr({
+					'text-anchor':'end',
+					x:width-23
+				});
 		}
 
 	var historyBars = thisCard.append('g.historyBars').selectAll('rect.historyBar').data(histArray).enter()
