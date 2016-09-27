@@ -240,7 +240,10 @@ svg.each(function(a,b){
 	// Grab that polling data, add a bar and label for the latest data point if any exist
 
 	d3.json(pollUrl, function(error, poll){
-		var latest = poll.slice(poll.length-2,poll.length);
+		var latest = poll.filter(function(d){return d.candidatename == 'Trump' || d.candidatename == 'Clinton'}).slice(-2);
+		// latest.forEach(function(d){
+		// 	console.log(a.code.toLowerCase(), d.candidatename);
+		// });
 		if(latest.length > 0){
 			if(latest[0].candidatename == 'Trump'){
 				histArray.push((latest[1].pollaverage-latest[0].pollaverage)/100);	
@@ -405,7 +408,7 @@ var usNums = sections.append('text.usNum')
 		y:45
 	})
 	.html(function(d,i){
-		return [4.4,5,14.8,30.1,17.4,13.2][i]
+		return [4.4,4.9,13.5,29.3,17.6,13.3][i]
 	});
 
 var stateBars = sections.append('rect.Purple')
@@ -425,9 +428,9 @@ var usBars = sections.append('rect.Gray')
 		x:width/4+2,
 		width:13,
 		y:function(d,i){
-			return 45 - (([4.4,5,14.8,30.1,17.4,13.2][i]/maxes[i]/100)*30)
+			return 45 - (([4.4,4.9,13.5,29.3,17.6,13.3][i]/maxes[i]/100)*30)
 		},
 		height:function(d,i){
-			return (([4.4,5,14.8,30.1,17.4,13.2][i]/maxes[i]/100)*30)
+			return (([4.4,4.9,13.5,29.3,17.6,13.3][i]/maxes[i]/100)*30)
 		}
 	});
